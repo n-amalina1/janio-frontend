@@ -1,5 +1,10 @@
+import OrdersTable from "../components/home/OrdersTable";
 function HomePage() {
-  return <h2>Home</h2>;
+  return (
+    <div className="container">
+      <OrdersTable />
+    </div>
+  );
 }
 
 export default HomePage;
