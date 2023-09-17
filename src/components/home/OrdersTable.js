@@ -1,8 +1,9 @@
 import { VscTrash, VscEdit } from "react-icons/vsc";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 
-function OrdersTable({ orders }) {
-  let renderedTable = orders.orders.map((order) => {
+function OrdersTable() {
+  const { orders } = useOutletContext();
+  let renderedTable = orders.map((order) => {
     return (
       <tr key={order.order_id}>
         <td>{order.order_id}</td>
@@ -13,7 +14,7 @@ function OrdersTable({ orders }) {
         <td>{order.order_status}</td>
         <td>{order.consignee.consignee_country}</td>
         <td className="px-1">
-          <Link to="#">
+          <Link to={`/order/edit/${order.order_id}`}>
             <VscEdit className="icon-brand-dark text-danger" />
           </Link>
         </td>
