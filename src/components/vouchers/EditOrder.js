@@ -59,10 +59,9 @@ function EditOrder() {
       postalP,
       stateP,
       cityP,
-      provinceP
+      provinceP,
+      items
     );
-
-    console.log(updatedOrder);
 
     const resp = await putAxios("order", updatedOrder);
     console.log(resp);
@@ -436,10 +435,12 @@ function EditOrder() {
                                   className="form-control mb-4 mb-md-0"
                                   type="number"
                                   name={`quantity${i}`}
-                                  value={item.item_quantity}
+                                  value={item.item_quantity.toString()}
                                   onChange={(e) =>
                                     setItems((items) => {
-                                      items[i].item_quantity = e.target.value;
+                                      items[i].item_quantity = parseInt(
+                                        e.target.value
+                                      );
                                       return [...items];
                                     })
                                   }
@@ -451,12 +452,12 @@ function EditOrder() {
                                   className="form-control mb-4 mb-md-0"
                                   type="number"
                                   name={`price${i}`}
-                                  value={item.item_price}
+                                  value={item.item_price.toString()}
                                   onChange={(e) =>
                                     setItems((items) => {
-                                      items[i].item_price = parseInt(
+                                      items[i].item_price = parseFloat(
                                         e.target.value
-                                      ).toFixed;
+                                      ).toFixed(2);
                                       return [...items];
                                     })
                                   }

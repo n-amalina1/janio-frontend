@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 import LayoutPage from "./pages/LayoutPage";
 import HomePage from "./pages/HomePage";
-import EditOrder from "./components/vouchers/EditVoucher";
+import EditOrder from "./components/vouchers/EditOrder";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

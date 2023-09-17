@@ -20,7 +20,7 @@ const putAxios = async (url, body) => {
     .catch(() => {
       console.log("Error Api Put: " + url);
     });
-  return response.data;
+  return response.data.data;
 };
 
 const postAxios = async (url, body) => {

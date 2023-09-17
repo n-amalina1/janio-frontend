@@ -23,8 +23,10 @@ const formatToPostOrder = (
   postalP,
   stateP,
   cityP,
-  provinceP
+  provinceP,
+  items
 ) => {
+  console.log(items);
   const order = {
     order_id: parseInt(id),
     order_length: parseInt(length),
@@ -55,6 +57,7 @@ const formatToPostOrder = (
       pickup_city: cityP,
       pickup_province: provinceP,
     },
+    items: items,
   };
   return order;
 };
