@@ -452,12 +452,12 @@ function EditOrder() {
                                   className="form-control mb-4 mb-md-0"
                                   type="number"
                                   name={`price${i}`}
-                                  value={item.item_price.toString()}
+                                  value={parseFloat(item.item_price).toFixed(2)}
                                   onChange={(e) =>
                                     setItems((items) => {
                                       items[i].item_price = parseFloat(
                                         e.target.value
-                                      ).toFixed(2);
+                                      );
                                       return [...items];
                                     })
                                   }
