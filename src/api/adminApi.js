@@ -12,4 +12,26 @@ const getAxios = async (url) => {
   return response.data;
 };
 
-export { getAxios };
+const putAxios = async (url, body) => {
+  const response = await axios
+    .put(ADMIN_BASE_URL + url, body, {
+      withCredentials: true,
+    })
+    .catch(() => {
+      console.log("Error Api Put: " + url);
+    });
+  return response.data;
+};
+
+const postAxios = async (url, body) => {
+  const response = await axios
+    .post(ADMIN_BASE_URL + url, body, {
+      withCredentials: true,
+    })
+    .catch(() => {
+      console.log("Error Api Post: " + url);
+    });
+  return response.data;
+};
+
+export { getAxios, putAxios, postAxios };

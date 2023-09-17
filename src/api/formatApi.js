@@ -1,0 +1,62 @@
+const formatToPostOrder = (
+  id,
+  length,
+  width,
+  height,
+  weight,
+  statusO,
+  idC,
+  nameC,
+  phoneC,
+  countryC,
+  addressC,
+  postalC,
+  stateC,
+  cityC,
+  provinceC,
+  emailC,
+  idP,
+  nameP,
+  phoneP,
+  countryP,
+  addressP,
+  postalP,
+  stateP,
+  cityP,
+  provinceP
+) => {
+  const order = {
+    order_id: parseInt(id),
+    order_length: parseInt(length),
+    order_width: parseInt(width),
+    order_height: parseInt(height),
+    order_weight: parseInt(weight),
+    order_status: statusO,
+    consignee: {
+      consignee_id: idC,
+      consignee_name: nameC,
+      consignee_phone_number: phoneC,
+      consignee_country: countryC,
+      consignee_address: addressC,
+      consignee_postal: parseInt(postalC),
+      consignee_state: stateC,
+      consignee_city: cityC,
+      consignee_province: provinceC,
+      consignee_email: emailC,
+    },
+    pickup: {
+      pickup_id: idP,
+      pickup_name: nameP,
+      pickup_phone_number: phoneP,
+      pickup_country: countryP,
+      pickup_address: addressP,
+      pickup_postal: parseInt(postalP),
+      pickup_state: stateP,
+      pickup_city: cityP,
+      pickup_province: provinceP,
+    },
+  };
+  return order;
+};
+
+export { formatToPostOrder };
