@@ -34,4 +34,15 @@ const postAxios = async (url, body) => {
   return response.data;
 };
 
-export { getAxios, putAxios, postAxios };
+const deleteAxios = async (url, body) => {
+  const response = await axios
+    .delete(ADMIN_BASE_URL + url, body, {
+      withCredentials: true,
+    })
+    .catch(() => {
+      console.log("Error Api Delete: " + url);
+    });
+  return response.data.json;
+};
+
+export { getAxios, putAxios, postAxios, deleteAxios };

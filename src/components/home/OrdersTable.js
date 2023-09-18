@@ -1,8 +1,12 @@
 import { VscTrash, VscEdit } from "react-icons/vsc";
 import { Link, useOutletContext } from "react-router-dom";
+import { useState } from "react";
+import DeleteModal from "../modal/DeleteModal";
 
 function OrdersTable() {
   const { orders } = useOutletContext();
+  const [deleteOrderId, setDeleteOrderId] = useState(0);
+
   let renderedTable = orders.map((order) => {
     return (
       <tr key={order.order_id}>
@@ -21,6 +25,7 @@ function OrdersTable() {
         <td className="ps-1">
           <VscTrash
             className="icon-brand-dark"
+            onClick={() => setDeleteOrderId(order.order_id)}
             data-bs-toggle="modal"
             data-bs-target="#deleteModal"
           />
@@ -48,6 +53,7 @@ function OrdersTable() {
         </thead>
         <tbody className="text-center">{renderedTable}</tbody>
       </table>
+      <DeleteModal orderId={deleteOrderId} />
     </div>
   );
 }
