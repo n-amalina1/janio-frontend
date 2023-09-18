@@ -25,7 +25,7 @@ function Nav() {
               <li className="nav-item text-center ms-5">
                 <NavLink
                   className={({ isActive }) => (isActive ? "fw-bold" : "")}
-                  to="/v"
+                  to="/order/new"
                 >
                   Create New
                 </NavLink>

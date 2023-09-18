@@ -12,6 +12,7 @@ function EditOrder() {
   const [width, setWidth] = useState(order.order_width);
   const [height, setHeight] = useState(order.order_height);
   const [weight, setWeight] = useState(order.order_weight);
+  const [status, setStatus] = useState(order.order_status);
   const [nameC, setNameC] = useState(order.consignee.consignee_name);
   const [phoneC, setPhoneC] = useState(order.consignee.consignee_phone_number);
   const [countryC, setCountryC] = useState(order.consignee.consignee_country);
@@ -40,7 +41,7 @@ function EditOrder() {
       width,
       height,
       weight,
-      "Pending",
+      status,
       order.consignee.consignee_id,
       nameC,
       phoneC,
@@ -113,6 +114,16 @@ function EditOrder() {
                 name="weight"
                 value={weight}
                 onChange={(e) => setWeight(e.target.value)}
+              />
+            </div>
+            <div className="form-group col-md-2">
+              <label className="form-label">Status:</label>
+              <input
+                className="form-control mb-4 mb-md-0"
+                type="text"
+                name="status"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
               />
             </div>
 
@@ -357,135 +368,147 @@ function EditOrder() {
                   </div>
                 </div>
 
-                <div className="accordion-item">
-                  <h2 className="accordion-header" id="accordionItems">
-                    <button
-                      className="accordion-button collapsed"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseItems"
-                      aria-expanded="false"
-                      aria-controls="accordionItems"
+                {items && (
+                  <div className="accordion-item">
+                    <h2 className="accordion-header" id="accordionItems">
+                      <button
+                        className="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseItems"
+                        aria-expanded="false"
+                        aria-controls="accordionItems"
+                      >
+                        <b>Items Details</b>
+                      </button>
+                    </h2>
+                    <div
+                      id="collapseItems"
+                      className="accordion-collapse collapse"
+                      aria-labelledby="accordionItems"
                     >
-                      <b>Items Details</b>
-                    </button>
-                  </h2>
-                  <div
-                    id="collapseItems"
-                    className="accordion-collapse collapse"
-                    aria-labelledby="accordionItems"
-                  >
-                    <div className="accordion-body">
-                      {items.map((item, i) => {
-                        return (
-                          <div className="my-4" key={i}>
-                            <div className="row mb-4">
-                              <div className="form-group col-md-6">
-                                <label className="form-label">
-                                  Description:
-                                </label>
-                                <input
-                                  className="form-control mb-4 mb-md-0"
-                                  type="text"
-                                  name={`desc${i}`}
-                                  value={item.item_desc}
-                                  onChange={(e) =>
-                                    setItems((items) => {
-                                      items[i].item_desc = e.target.value;
-                                      return [...items];
-                                    })
-                                  }
-                                />
+                      <div className="accordion-body">
+                        {items.map((item, i) => {
+                          return (
+                            <div className="my-4" key={i}>
+                              <div className="row mb-4">
+                                <div className="form-group col-md-6">
+                                  <label className="form-label">
+                                    Description:
+                                  </label>
+                                  <input
+                                    className="form-control mb-4 mb-md-0"
+                                    type="text"
+                                    name={`desc${i}`}
+                                    value={item.item_desc}
+                                    onChange={(e) =>
+                                      setItems((items) => {
+                                        items[i].item_desc = e.target.value;
+                                        return [...items];
+                                      })
+                                    }
+                                  />
+                                </div>
+                                <div className="form-group col-md-3">
+                                  <label className="form-label">
+                                    Category:
+                                  </label>
+                                  <input
+                                    className="form-control mb-4 mb-md-0"
+                                    type="text"
+                                    name={`category${i}`}
+                                    value={item.item_category}
+                                    onChange={(e) =>
+                                      setItems((items) => {
+                                        items[i].item_category = e.target.value;
+                                        return [...items];
+                                      })
+                                    }
+                                  />
+                                </div>
+                                <div className="form-group col-md-3">
+                                  <label className="form-label">Sku:</label>
+                                  <input
+                                    className="form-control mb-4 mb-md-0"
+                                    type="text"
+                                    name={`sku${i}`}
+                                    value={item.item_sku}
+                                    onChange={(e) =>
+                                      setItems((items) => {
+                                        items[i].item_sku = e.target.value;
+                                        return [...items];
+                                      })
+                                    }
+                                  />
+                                </div>
                               </div>
-                              <div className="form-group col-md-3">
-                                <label className="form-label">Category:</label>
-                                <input
-                                  className="form-control mb-4 mb-md-0"
-                                  type="text"
-                                  name={`category${i}`}
-                                  value={item.item_category}
-                                  onChange={(e) =>
-                                    setItems((items) => {
-                                      items[i].item_category = e.target.value;
-                                      return [...items];
-                                    })
-                                  }
-                                />
+                              <div className="row">
+                                <div className="form-group col-md-2">
+                                  <label className="form-label">
+                                    Quantity:
+                                  </label>
+                                  <input
+                                    className="form-control mb-4 mb-md-0"
+                                    type="number"
+                                    name={`quantity${i}`}
+                                    value={item.item_quantity.toString()}
+                                    onChange={(e) =>
+                                      setItems((items) => {
+                                        items[i].item_quantity = parseInt(
+                                          e.target.value
+                                        );
+                                        return [...items];
+                                      })
+                                    }
+                                  />
+                                </div>
+                                <div className="form-group col-md-2">
+                                  <label className="form-label">Price:</label>
+                                  <input
+                                    className="form-control mb-4 mb-md-0"
+                                    type="number"
+                                    name={`price${i}`}
+                                    value={parseFloat(item.item_price).toFixed(
+                                      2
+                                    )}
+                                    onChange={(e) =>
+                                      setItems((items) => {
+                                        items[i].item_price = parseFloat(
+                                          e.target.value
+                                        );
+                                        return [...items];
+                                      })
+                                    }
+                                  />
+                                </div>
+                                <div className="form-group col-md-2">
+                                  <label className="form-label">
+                                    Currency:
+                                  </label>
+                                  <input
+                                    className="form-control mb-4 mb-md-0"
+                                    type="text"
+                                    name={`currency${i}`}
+                                    value={item.item_currency}
+                                    onChange={(e) =>
+                                      setItems((items) => {
+                                        items[i].item_currency = e.target.value;
+                                        return [...items];
+                                      })
+                                    }
+                                  />
+                                </div>
                               </div>
-                              <div className="form-group col-md-3">
-                                <label className="form-label">Sku:</label>
-                                <input
-                                  className="form-control mb-4 mb-md-0"
-                                  type="text"
-                                  name={`sku${i}`}
-                                  value={item.item_sku}
-                                  onChange={(e) =>
-                                    setItems((items) => {
-                                      items[i].item_sku = e.target.value;
-                                      return [...items];
-                                    })
-                                  }
-                                />
-                              </div>
+                              {i !== items.length - 1 && (
+                                <hr className="my-4" />
+                              )}
                             </div>
-                            <div className="row">
-                              <div className="form-group col-md-2">
-                                <label className="form-label">Quantity:</label>
-                                <input
-                                  className="form-control mb-4 mb-md-0"
-                                  type="number"
-                                  name={`quantity${i}`}
-                                  value={item.item_quantity.toString()}
-                                  onChange={(e) =>
-                                    setItems((items) => {
-                                      items[i].item_quantity = parseInt(
-                                        e.target.value
-                                      );
-                                      return [...items];
-                                    })
-                                  }
-                                />
-                              </div>
-                              <div className="form-group col-md-2">
-                                <label className="form-label">Price:</label>
-                                <input
-                                  className="form-control mb-4 mb-md-0"
-                                  type="number"
-                                  name={`price${i}`}
-                                  value={parseFloat(item.item_price).toFixed(2)}
-                                  onChange={(e) =>
-                                    setItems((items) => {
-                                      items[i].item_price = parseFloat(
-                                        e.target.value
-                                      );
-                                      return [...items];
-                                    })
-                                  }
-                                />
-                              </div>
-                              <div className="form-group col-md-2">
-                                <label className="form-label">Currency:</label>
-                                <input
-                                  className="form-control mb-4 mb-md-0"
-                                  type="text"
-                                  name={`currency${i}`}
-                                  value={item.item_currency}
-                                  onChange={(e) =>
-                                    setItems((items) => {
-                                      items[i].item_currency = e.target.value;
-                                      return [...items];
-                                    })
-                                  }
-                                />
-                              </div>
-                            </div>
-                            {i !== items.length - 1 && <hr className="my-4" />}
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>

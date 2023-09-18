@@ -10,13 +10,15 @@ import {
 } from "react-router-dom";
 import LayoutPage from "./pages/LayoutPage";
 import HomePage from "./pages/HomePage";
-import EditOrder from "./components/vouchers/EditOrder";
+import EditOrder from "./components/orders/EditOrder";
+import AddOrder from "./components/orders/AddOrder";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<LayoutPage />}>
       <Route index path="" element={<HomePage />} />
-      <Route index path="order/edit/:id" element={<EditOrder />} />
+      <Route path="order/edit/:id" element={<EditOrder />} />
+      <Route path="order/new" element={<AddOrder />} />
     </Route>
   )
 );
