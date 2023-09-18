@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { itemInit } from "./constantOrder";
+import { formatToPostOrder, initOrder } from "../../api/formatApi";
+import { postAxios } from "../../api/adminApi";
 
 function AddOrder() {
+  const initO = initOrder();
+
   const [length, setLength] = useState(0);
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
@@ -12,10 +16,10 @@ function AddOrder() {
   const [countryC, setCountryC] = useState("");
   const [addressC, setAddressC] = useState("");
   const [postalC, setPostalC] = useState(0);
-  const [emailC, setEmailC] = useState("");
   const [stateC, setStateC] = useState("");
   const [cityC, setCityC] = useState("");
   const [provinceC, setProvinceC] = useState("");
+  const [emailC, setEmailC] = useState("");
   const [nameP, setNameP] = useState("");
   const [phoneP, setPhoneP] = useState("");
   const [countryP, setCountryP] = useState("");
@@ -23,7 +27,7 @@ function AddOrder() {
   const [postalP, setPostalP] = useState(0);
   const [stateP, setStateP] = useState("");
   const [cityP, setCityP] = useState("");
-  const [provinceP, setProvinceP] = "";
+  const [provinceP, setProvinceP] = useState("");
   const [items, setItems] = useState([]);
   const [addItem, setAddItem] = useState(false);
 
@@ -31,7 +35,60 @@ function AddOrder() {
     setAddItem(true);
     setItems([...items, itemInit]);
   };
-  const addNewOrder = () => {};
+  const addNewOrder = async () => {
+    const newOrder = formatToPostOrder(
+      length,
+      width,
+      height,
+      weight,
+      status,
+      nameC,
+      phoneC,
+      countryC,
+      addressC,
+      postalC,
+      stateC,
+      cityC,
+      provinceC,
+      emailC,
+      nameP,
+      phoneP,
+      countryP,
+      addressP,
+      postalP,
+      stateP,
+      cityP,
+      provinceP,
+      items
+    );
+
+    await postAxios("order", newOrder);
+  };
+
+  const init = () => {
+    setLength(initO.order_length);
+    setWidth(initO.order_width);
+    setHeight(initO.order_height);
+    setWeight(initO.order_weight);
+    setNameC(initO.consignee.consignee_name);
+    setPhoneC(initO.consignee.consignee_phone_number);
+    setCountryC(initO.consignee.consignee_country);
+    setAddressC(initO.consignee.consignee_address);
+    setPostalC(initO.consignee.consignee_postal);
+    setCityC(initO.consignee.consignee_city);
+    setStateC(initO.consignee.consignee_state);
+    setEmailC(initO.consignee.consignee_email);
+    setProvinceC(initO.consignee.consignee_province);
+    setNameP(initO.pickup.pickup_name);
+    setPhoneP(initO.pickup.pickup_phone_number);
+    setCountryP(initO.pickup.pickup_country);
+    setAddressP(initO.pickup.pickup_address);
+    setPostalP(initO.pickup.pickup_postal);
+    setStateP(initO.pickup.pickup_state);
+    setCityP(initO.pickup.pickup_city);
+    setProvinceP(initO.pickup.pickup_province);
+    setItems(initO.items);
+  };
 
   return (
     <div className="container px-5">
@@ -39,6 +96,9 @@ function AddOrder() {
         <h2 className="text-center mb-4">Add New Order</h2>
         <div className="col-md-10 offset-1">
           <h5 className="mb-4">Order Details</h5>
+          <div onClick={init}>
+            <p>init</p>
+          </div>
 
           <div className="row mb-4">
             <div className="form-group col-md-2">
@@ -356,22 +416,6 @@ function AddOrder() {
                           return (
                             <div className="my-4" key={i}>
                               <div className="row mb-4">
-                                <div className="form-group col-md-2">
-                                  <label className="form-label">Item ID:</label>
-                                  <input
-                                    className="form-control mb-4 mb-md-0"
-                                    type="number"
-                                    name={`id${i}`}
-                                    value={item.item_id}
-                                    onChange={(e) =>
-                                      setItems((items) => {
-                                        items[i].item_id = e.target.value;
-
-                                        return [...items];
-                                      })
-                                    }
-                                  />
-                                </div>
                                 <div className="form-group col-md-6">
                                   <label className="form-label">
                                     Description:
@@ -406,8 +450,6 @@ function AddOrder() {
                                     }
                                   />
                                 </div>
-                              </div>
-                              <div className="row">
                                 <div className="form-group col-md-3">
                                   <label className="form-label">Sku:</label>
                                   <input
@@ -423,6 +465,8 @@ function AddOrder() {
                                     }
                                   />
                                 </div>
+                              </div>
+                              <div className="row">
                                 <div className="form-group col-md-2">
                                   <label className="form-label">
                                     Quantity:

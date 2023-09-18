@@ -1,4 +1,4 @@
-const formatToPostOrder = (
+const formatToPutOrder = (
   id,
   length,
   width,
@@ -26,7 +26,6 @@ const formatToPostOrder = (
   provinceP,
   items
 ) => {
-  console.log(items);
   const order = {
     order_id: parseInt(id),
     order_length: parseInt(length),
@@ -62,4 +61,110 @@ const formatToPostOrder = (
   return order;
 };
 
-export { formatToPostOrder };
+const formatToPostOrder = (
+  length,
+  width,
+  height,
+  weight,
+  statusO,
+  nameC,
+  phoneC,
+  countryC,
+  addressC,
+  postalC,
+  stateC,
+  cityC,
+  provinceC,
+  emailC,
+  nameP,
+  phoneP,
+  countryP,
+  addressP,
+  postalP,
+  stateP,
+  cityP,
+  provinceP,
+  items
+) => {
+  let order = {
+    order_length: parseInt(length),
+    order_width: parseInt(width),
+    order_height: parseInt(height),
+    order_weight: parseInt(weight),
+    order_status: statusO,
+    consignee: {
+      consignee_name: nameC,
+      consignee_phone_number: phoneC,
+      consignee_country: countryC,
+      consignee_address: addressC,
+      consignee_postal: parseInt(postalC),
+      consignee_state: stateC,
+      consignee_city: cityC,
+      consignee_province: provinceC,
+      consignee_email: emailC,
+    },
+    pickup: {
+      pickup_name: nameP,
+      pickup_phone_number: phoneP,
+      pickup_country: countryP,
+      pickup_address: addressP,
+      pickup_postal: parseInt(postalP),
+      pickup_state: stateP,
+      pickup_city: cityP,
+      pickup_province: provinceP,
+    },
+    items: items,
+  };
+  return order;
+};
+
+const initOrder = () => {
+  return {
+    order_length: 20,
+    order_width: 12,
+    order_height: 20,
+    order_weight: 12,
+    order_status: "Pending",
+    consignee: {
+      consignee_name: "Sam",
+      consignee_phone_number: " +6276139699",
+      consignee_country: "Indonesia",
+      consignee_address: " JL. Tuanku Tambusai No. 348G, Pekan Baru",
+      consignee_postal: 28282,
+      consignee_state: "Pekanbaru",
+      consignee_city: "Pekan Baru",
+      consignee_province: "Jakarta",
+      consignee_email: "Sammm@gmail.com",
+    },
+    pickup: {
+      pickup_name: "Jackson",
+      pickup_phone_number: "+6567795141",
+      pickup_country: "Singapore",
+      pickup_address: "163 Pandan Loop, Blk V",
+      pickup_postal: 128444,
+      pickup_state: "Singapore State",
+      pickup_city: "null",
+      pickup_province: "null",
+    },
+    items: [
+      {
+        item_desc: "Blue Male T-Shirt",
+        item_category: "Fashion Apparel",
+        item_sku: "ITEMSKU123",
+        item_quantity: 7,
+        item_price: 23.9,
+        item_currency: "IDR",
+      },
+      {
+        item_desc: "Red Skirt",
+        item_category: "Fashion Apparel",
+        item_sku: "ITEMSKU123",
+        item_quantity: 1,
+        item_price: 28.9,
+        item_currency: "IDR",
+      },
+    ],
+  };
+};
+
+export { formatToPutOrder, formatToPostOrder, initOrder };

@@ -1,6 +1,6 @@
 import { useOutletContext, useParams } from "react-router-dom";
 import React, { useState } from "react";
-import { formatToPostOrder } from "../../api/formatApi";
+import { formatToPutOrder } from "../../api/formatApi";
 import { putAxios } from "../../api/adminApi";
 
 function EditOrder() {
@@ -35,7 +35,7 @@ function EditOrder() {
   const [items, setItems] = useState(order.items);
 
   const updateOrder = async () => {
-    const updatedOrder = formatToPostOrder(
+    const updatedOrder = formatToPutOrder(
       id,
       length,
       width,
@@ -64,8 +64,7 @@ function EditOrder() {
       items
     );
 
-    const resp = await putAxios("order", updatedOrder);
-    console.log(resp);
+    await putAxios("order", updatedOrder);
   };
 
   return (
