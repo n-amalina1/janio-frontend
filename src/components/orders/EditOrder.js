@@ -24,6 +24,30 @@ const defaultErrors = {
     error: false,
     msg: "",
   },
+  nameC: {
+    error: false,
+    msg: "",
+  },
+  phoneC: {
+    error: false,
+    msg: "",
+  },
+  countryC: {
+    error: false,
+    msg: "",
+  },
+  addressC: {
+    error: false,
+    msg: "",
+  },
+  postalC: {
+    error: false,
+    msg: "",
+  },
+  emailC: {
+    error: false,
+    msg: "",
+  },
 };
 
 function EditOrder() {
@@ -61,13 +85,20 @@ function EditOrder() {
 
   const updateOrder = async () => {
     validateOrderDetails();
+    validateConsignee();
 
     if (
       !errors.length.error &&
       !errors.width.error &&
       !errors.height.error &&
       !errors.weight.error &&
-      !errors.status.error
+      !errors.status.error &&
+      !errors.nameC.error &&
+      !errors.phoneC.error &&
+      !errors.countryC.error &&
+      !errors.addressC.error &&
+      !errors.postalC.error &&
+      !errors.emailC.error
     ) {
       return;
     }
@@ -186,6 +217,104 @@ function EditOrder() {
     }
   };
 
+  const validateConsignee = () => {
+    if (nameC === "") {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          nameC: { msg: "Please enter a valid name", error: true },
+        };
+      });
+    } else {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          nameC: { msg: "", error: false },
+        };
+      });
+    }
+
+    if (phoneC === "") {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          phoneC: { msg: "Please enter a valid phone", error: true },
+        };
+      });
+    } else {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          phoneC: { msg: "", error: false },
+        };
+      });
+    }
+
+    if (countryC === "") {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          countryC: { msg: "Please enter a valid country", error: true },
+        };
+      });
+    } else {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          countryC: { msg: "", error: false },
+        };
+      });
+    }
+
+    if (addressC === "") {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          addressC: { msg: "Please enter a valid address", error: true },
+        };
+      });
+    } else {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          addressC: { msg: "", error: false },
+        };
+      });
+    }
+
+    if (postalC === "") {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          postalC: { msg: "Please enter a valid postal", error: true },
+        };
+      });
+    } else {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          postalC: { msg: "", error: false },
+        };
+      });
+    }
+
+    if (emailC === "") {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          emailC: { msg: "Please enter a valid email", error: true },
+        };
+      });
+    } else {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          emailC: { msg: "", error: false },
+        };
+      });
+    }
+  };
+
   return (
     <div className="container px-5">
       <div className="row my-5 pb-5">
@@ -285,68 +414,98 @@ function EditOrder() {
                         <div className="form-group col-md-4">
                           <label className="form-label">Name:</label>
                           <input
-                            className="form-control mb-4 mb-md-0"
+                            className={`form-control mb-4 mb-md-0 ${
+                              errors.nameC.error ? "is-invalid" : ""
+                            }`}
                             type="text"
                             name="nameC"
                             value={nameC}
                             onChange={(e) => setNameC(e.target.value)}
                           />
+                          <div className="invalid-feedback">
+                            {errors.nameC.msg}
+                          </div>
                         </div>
 
                         <div className="form-group col-md-3">
                           <label className="form-label">Phone Number:</label>
                           <input
-                            className="form-control mb-4 mb-md-0"
+                            className={`form-control mb-4 mb-md-0 ${
+                              errors.phoneC.error ? "is-invalid" : ""
+                            }`}
                             type="text"
                             name="phoneC"
                             value={phoneC}
                             onChange={(e) => setPhoneC(e.target.value)}
                           />
+                          <div className="invalid-feedback">
+                            {errors.phoneC.msg}
+                          </div>
                         </div>
 
                         <div className="form-group col-md-3">
                           <label className="form-label">Country:</label>
                           <input
-                            className="form-control mb-4 mb-md-0"
+                            className={`form-control mb-4 mb-md-0 ${
+                              errors.countryC.error ? "is-invalid" : ""
+                            }`}
                             type="text"
                             name="countryC"
                             value={countryC}
                             onChange={(e) => setCountryC(e.target.value)}
                           />
+                          <div className="invalid-feedback">
+                            {errors.countryC.msg}
+                          </div>
                         </div>
                       </div>
                       <div className="row mb-4">
                         <div className="form-group col-md-7">
                           <label className="form-label">Address:</label>
                           <input
-                            className="form-control mb-4 mb-md-0"
+                            className={`form-control mb-4 mb-md-0 ${
+                              errors.addressC.error ? "is-invalid" : ""
+                            }`}
                             type="text"
                             name="addressC"
                             value={addressC}
                             onChange={(e) => setAddressC(e.target.value)}
                           />
+                          <div className="invalid-feedback">
+                            {errors.addressC.msg}
+                          </div>
                         </div>
 
                         <div className="form-group col-md-2">
                           <label className="form-label">Postal:</label>
                           <input
-                            className="form-control mb-4 mb-md-0"
+                            className={`form-control mb-4 mb-md-0 ${
+                              errors.postalC.error ? "is-invalid" : ""
+                            }`}
                             type="text"
                             name="postalC"
                             value={postalC}
                             onChange={(e) => setPostalC(e.target.value)}
                           />
+                          <div className="invalid-feedback">
+                            {errors.postalC.msg}
+                          </div>
                         </div>
 
                         <div className="form-group col-md-3">
                           <label className="form-label">Email:</label>
                           <input
-                            className="form-control mb-4 mb-md-0"
+                            className={`form-control mb-4 mb-md-0 ${
+                              errors.emailC.error ? "is-invalid" : ""
+                            }`}
                             type="text"
                             name="emailC"
                             value={emailC}
                             onChange={(e) => setEmailC(e.target.value)}
                           />
+                          <div className="invalid-feedback">
+                            {errors.emailC.msg}
+                          </div>
                         </div>
                       </div>
                       <div className="row mb-4">
