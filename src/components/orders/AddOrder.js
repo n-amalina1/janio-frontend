@@ -3,6 +3,29 @@ import { itemInit } from "./constantOrder";
 import { formatToPostOrder, initOrder } from "../../api/formatApi";
 import { postAxios } from "../../api/adminApi";
 
+const defaultErrors = {
+  length: {
+    error: false,
+    msg: "",
+  },
+  width: {
+    error: false,
+    msg: "",
+  },
+  height: {
+    error: false,
+    msg: "",
+  },
+  weight: {
+    error: false,
+    msg: "",
+  },
+  status: {
+    error: false,
+    msg: "",
+  },
+};
+
 function AddOrder() {
   const initO = initOrder();
 
@@ -31,11 +54,24 @@ function AddOrder() {
   const [items, setItems] = useState([]);
   const [addItem, setAddItem] = useState(false);
 
+  const [errors, setErrors] = useState(defaultErrors);
+
   const addNewItem = () => {
     setAddItem(true);
     setItems([...items, itemInit]);
   };
   const addNewOrder = async () => {
+    validateOrderDetails();
+    if (
+      !errors.length.error &&
+      !errors.width.error &&
+      !errors.height.error &&
+      !errors.weight.error &&
+      !errors.status.error
+    ) {
+      return;
+    }
+
     const newOrder = formatToPostOrder(
       length,
       width,
@@ -63,6 +99,88 @@ function AddOrder() {
     );
 
     await postAxios("order", newOrder);
+  };
+
+  const validateOrderDetails = () => {
+    if (length === "" || length <= 0) {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          length: { msg: "Please enter a valid length", error: true },
+        };
+      });
+    } else {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          length: { msg: "", error: false },
+        };
+      });
+    }
+
+    if (width === "" || width <= 0) {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          width: { msg: "Please enter a valid width", error: true },
+        };
+      });
+    } else {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          width: { msg: "", error: false },
+        };
+      });
+    }
+
+    if (height === "" || height <= 0) {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          height: { msg: "Please enter a valid height", error: true },
+        };
+      });
+    } else {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          height: { msg: "", error: false },
+        };
+      });
+    }
+
+    if (weight === "" || weight <= 0) {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          weight: { msg: "Please enter a valid weight", error: true },
+        };
+      });
+    } else {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          weight: { msg: "", error: false },
+        };
+      });
+    }
+
+    if (status === "") {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          status: { msg: "Please enter a valid status", error: true },
+        };
+      });
+    } else if (status !== "Pending" || status !== "Completed") {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          status: { msg: "", error: false },
+        };
+      });
+    }
   };
 
   const init = () => {
@@ -104,52 +222,67 @@ function AddOrder() {
             <div className="form-group col-md-2">
               <label className="form-label">Length:</label>
               <input
-                className="form-control mb-4 mb-md-0"
+                className={`form-control mb-4 mb-md-0 ${
+                  errors.length.error ? "is-invalid" : ""
+                }`}
                 type="number"
                 name="length"
                 value={length}
                 onChange={(e) => setLength(e.target.value)}
               />
+              <div className="invalid-feedback">{errors.length.msg}</div>
             </div>
             <div className="form-group col-md-2">
               <label className="form-label">Width:</label>
               <input
-                className="form-control mb-4 mb-md-0"
+                className={`form-control mb-4 mb-md-0 ${
+                  errors.width.error ? "is-invalid" : ""
+                }`}
                 type="number"
                 name="width"
                 value={width}
                 onChange={(e) => setWidth(e.target.value)}
               />
+              <div className="invalid-feedback">{errors.width.msg}</div>
             </div>
             <div className="form-group col-md-2">
               <label className="form-label">Height:</label>
               <input
-                className="form-control mb-4 mb-md-0"
+                className={`form-control mb-4 mb-md-0 ${
+                  errors.height.error ? "is-invalid" : ""
+                }`}
                 type="number"
                 name="height"
                 value={height}
                 onChange={(e) => setHeight(e.target.value)}
               />
+              <div className="invalid-feedback">{errors.height.msg}</div>
             </div>
             <div className="form-group col-md-2">
               <label className="form-label">Weight:</label>
               <input
-                className="form-control mb-4 mb-md-0"
+                className={`form-control mb-4 mb-md-0 ${
+                  errors.weight.error ? "is-invalid" : ""
+                }`}
                 type="number"
                 name="weight"
                 value={weight}
                 onChange={(e) => setWeight(e.target.value)}
               />
+              <div className="invalid-feedback">{errors.weight.msg}</div>
             </div>
             <div className="form-group col-md-2">
               <label className="form-label">Status:</label>
               <input
-                className="form-control mb-4 mb-md-0"
+                className={`form-control mb-4 mb-md-0 ${
+                  errors.status.error ? "is-invalid" : ""
+                }`}
                 type="text"
                 name="status"
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
               />
+              <div className="invalid-feedback">{errors.status.msg}</div>
             </div>
 
             <div className="row mt-5">
