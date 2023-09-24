@@ -675,7 +675,9 @@ function EditOrder() {
                         <div className="form-group col-md-3">
                           <label className="form-label">Phone Number:</label>
                           <input
-                            className="form-control mb-4 mb-md-0"
+                            className={`form-control mb-4 mb-md-0 ${
+                              errors.phoneP.error ? "is-invalid" : ""
+                            }`}
                             type="text"
                             name="phoneP"
                             value={phoneP}

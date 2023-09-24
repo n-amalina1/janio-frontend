@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { itemInit } from "./constantOrder";
 import { formatToPostOrder, initOrder } from "../../api/formatApi";
 import { postAxios } from "../../api/adminApi";
@@ -49,6 +49,26 @@ const defaultErrors = {
     error: false,
     msg: "",
   },
+  nameP: {
+    error: false,
+    msg: "",
+  },
+  phoneP: {
+    error: false,
+    msg: "",
+  },
+  countryP: {
+    error: false,
+    msg: "",
+  },
+  addressP: {
+    error: false,
+    msg: "",
+  },
+  postalP: {
+    error: false,
+    msg: "",
+  },
 };
 
 function AddOrder() {
@@ -89,21 +109,6 @@ function AddOrder() {
   const addNewOrder = async () => {
     validateOrderDetails();
     validateConsignee();
-    if (
-      !errors.length.error &&
-      !errors.width.error &&
-      !errors.height.error &&
-      !errors.weight.error &&
-      !errors.status.error &&
-      !errors.nameC.error &&
-      !errors.phoneC.error &&
-      !errors.countryC.error &&
-      !errors.addressC.error &&
-      !errors.postalC.error &&
-      !errors.emailC.error
-    ) {
-      return;
-    }
 
     const newOrder = formatToPostOrder(
       length,
@@ -135,7 +140,7 @@ function AddOrder() {
     navigate("/");
   };
 
-  const validateOrderDetails = () => {
+  const validateOrderDetails = useCallback(() => {
     if (length === "" || length <= 0) {
       setErrors((prev) => {
         return {
@@ -215,9 +220,9 @@ function AddOrder() {
         };
       });
     }
-  };
+  }, [height, length, status, weight, width]);
 
-  const validateConsignee = () => {
+  const validateConsignee = useCallback(() => {
     if (nameC === "") {
       setErrors((prev) => {
         return {
@@ -313,7 +318,95 @@ function AddOrder() {
         };
       });
     }
-  };
+  }, [addressC, countryC, emailC, nameC, phoneC, postalC]);
+
+  const validatePickup = useCallback(() => {
+    if (nameP === "") {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          nameP: { msg: "Please enter a valid name", error: true },
+        };
+      });
+    } else {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          nameP: { msg: "", error: false },
+        };
+      });
+    }
+
+    if (phoneP === "") {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          phoneP: { msg: "Please enter a valid phone", error: true },
+        };
+      });
+    } else {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          phoneP: { msg: "", error: false },
+        };
+      });
+    }
+
+    if (countryP === "") {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          countryP: { msg: "Please enter a valid country", error: true },
+        };
+      });
+    } else {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          countryP: { msg: "", error: false },
+        };
+      });
+    }
+
+    if (addressP === "") {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          addressP: { msg: "Please enter a valid address", error: true },
+        };
+      });
+    } else {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          addressP: { msg: "", error: false },
+        };
+      });
+    }
+
+    if (postalP === "") {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          postalP: { msg: "Please enter a valid postal", error: true },
+        };
+      });
+    } else {
+      setErrors((prev) => {
+        return {
+          ...prev,
+          postalP: { msg: "", error: false },
+        };
+      });
+    }
+  }, [addressP, countryP, nameP, phoneP, postalP]);
+
+  useEffect(() => {
+    validateOrderDetails();
+    validateConsignee();
+    validatePickup();
+  }, [validateConsignee, validateOrderDetails, validatePickup]);
 
   const init = () => {
     setLength(initO.order_length);
@@ -596,57 +689,82 @@ function AddOrder() {
                         <div className="form-group col-md-4">
                           <label className="form-label">Name:</label>
                           <input
-                            className="form-control mb-4 mb-md-0"
+                            className={`form-control mb-4 mb-md-0 ${
+                              errors.nameP.error ? "is-invalid" : ""
+                            }`}
                             type="text"
                             name="nameP"
                             value={nameP}
                             onChange={(e) => setNameP(e.target.value)}
                           />
+                          <div className="invalid-feedback">
+                            {errors.nameP.msg}
+                          </div>
                         </div>
 
                         <div className="form-group col-md-3">
                           <label className="form-label">Phone Number:</label>
                           <input
-                            className="form-control mb-4 mb-md-0"
+                            className={`form-control mb-4 mb-md-0 ${
+                              errors.phoneP.error ? "is-invalid" : ""
+                            }`}
                             type="text"
                             name="phoneP"
                             value={phoneP}
                             onChange={(e) => setPhoneP(e.target.value)}
                           />
+                          <div className="invalid-feedback">
+                            {errors.phoneP.msg}
+                          </div>
                         </div>
 
                         <div className="form-group col-md-3">
                           <label className="form-label">Country:</label>
                           <input
-                            className="form-control mb-4 mb-md-0"
+                            className={`form-control mb-4 mb-md-0 ${
+                              errors.countryP.error ? "is-invalid" : ""
+                            }`}
                             type="text"
                             name="countryP"
                             value={countryP}
                             onChange={(e) => setCountryP(e.target.value)}
                           />
+                          <div className="invalid-feedback">
+                            {errors.countryP.msg}
+                          </div>
                         </div>
                       </div>
                       <div className="row mb-4">
                         <div className="form-group col-md-7">
                           <label className="form-label">Address:</label>
                           <input
-                            className="form-control mb-4 mb-md-0"
+                            className={`form-control mb-4 mb-md-0 ${
+                              errors.addressP.error ? "is-invalid" : ""
+                            }`}
                             type="text"
                             name="addressP"
                             value={addressP}
                             onChange={(e) => setAddressP(e.target.value)}
                           />
+                          <div className="invalid-feedback">
+                            {errors.addressP.msg}
+                          </div>
                         </div>
 
                         <div className="form-group col-md-2">
                           <label className="form-label">Postal:</label>
                           <input
-                            className="form-control mb-4 mb-md-0"
+                            className={`form-control mb-4 mb-md-0 ${
+                              errors.postalP.error ? "is-invalid" : ""
+                            }`}
                             type="text"
                             name="postalP"
                             value={postalP}
                             onChange={(e) => setPostalP(e.target.value)}
                           />
+                          <div className="invalid-feedback">
+                            {errors.postalP.msg}
+                          </div>
                         </div>
                       </div>
 
