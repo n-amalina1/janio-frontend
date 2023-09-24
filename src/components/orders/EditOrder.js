@@ -1,4 +1,4 @@
-import { useOutletContext, useParams } from "react-router-dom";
+import { useOutletContext, useParams, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { formatToPutOrder } from "../../api/formatApi";
 import { putAxios } from "../../api/adminApi";
@@ -52,6 +52,7 @@ const defaultErrors = {
 
 function EditOrder() {
   const { orders } = useOutletContext();
+  const navigate = useNavigate();
   let { id } = useParams();
   const order = orders.filter((o) => o.order_id === parseInt(id))[0];
 
@@ -88,17 +89,17 @@ function EditOrder() {
     validateConsignee();
 
     if (
-      !errors.length.error &&
-      !errors.width.error &&
-      !errors.height.error &&
-      !errors.weight.error &&
-      !errors.status.error &&
-      !errors.nameC.error &&
-      !errors.phoneC.error &&
-      !errors.countryC.error &&
-      !errors.addressC.error &&
-      !errors.postalC.error &&
-      !errors.emailC.error
+      errors.length.error ||
+      errors.width.error ||
+      errors.height.error ||
+      errors.weight.error ||
+      errors.status.error ||
+      errors.nameC.error ||
+      errors.phoneC.error ||
+      errors.countryC.error ||
+      errors.addressC.error ||
+      errors.postalC.error ||
+      errors.emailC.error
     ) {
       return;
     }
@@ -133,6 +134,7 @@ function EditOrder() {
     );
 
     await putAxios("order", updatedOrder);
+    navigate("/");
   };
 
   const validateOrderDetails = () => {

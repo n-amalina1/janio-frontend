@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { itemInit } from "./constantOrder";
 import { formatToPostOrder, initOrder } from "../../api/formatApi";
 import { postAxios } from "../../api/adminApi";
+import { useNavigate } from "react-router-dom";
 
 const defaultErrors = {
   length: {
@@ -51,6 +52,7 @@ const defaultErrors = {
 };
 
 function AddOrder() {
+  const navigate = useNavigate();
   const initO = initOrder();
 
   const [length, setLength] = useState(0);
@@ -130,6 +132,7 @@ function AddOrder() {
     );
 
     await postAxios("order", newOrder);
+    navigate("/");
   };
 
   const validateOrderDetails = () => {
